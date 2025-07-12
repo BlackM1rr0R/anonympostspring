@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: blog-back
+  datasource:
+    url: jdbc:mysql://localhost:3306/blogDB
+    username: root
+    password: Baku2018
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+server:
+  port: 6059
+
+jwt:
+  secret: a-string-secret-at-least-256-bits-long
+  expiration: 3600000
+

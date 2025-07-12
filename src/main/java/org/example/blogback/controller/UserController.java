@@ -1,0 +1,39 @@
+package org.example.blogback.controller;
+
+import org.example.blogback.entity.Users;
+import org.example.blogback.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/user")
+public class UserController {
+    private final UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+    @PostMapping("/register")
+    public Users register(@RequestBody Users user) {
+        return userService.register(user);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Users user) {
+        return ResponseEntity.ok(userService.login(user));
+    }
+
+    @GetMapping("/allusers")
+    public List<Users> getAllUsers() {
+        return userService.getAllUsers();
+    }
+    @GetMapping("/my-profile")
+    public Users getMyProfile() {
+        return userService.getMyProfile();
+    }
+    @PutMapping("/edit-profile")
+    public Users editProfile(@RequestBody Users user) {
+        return userService.editProfile(user);
+    }
+}
