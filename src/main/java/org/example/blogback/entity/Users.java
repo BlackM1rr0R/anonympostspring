@@ -21,10 +21,51 @@ public class Users {
     private String username;
     private String password;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value = "user-post")
     private List<Post> posts;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference(value = "user-comment")
+    private List<Comment> comments;
     @Enumerated(EnumType.STRING)
     private UserRoles roles;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+
     public Long getId() {
         return id;
     }

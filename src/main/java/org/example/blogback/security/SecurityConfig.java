@@ -50,6 +50,8 @@ public class SecurityConfig  {
                                 .requestMatchers("/user/my-profile").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/post/search").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/post/search/post/").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/comment/add").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/comment/post/").permitAll()
                                 .requestMatchers("/uploads/**").permitAll()
                                 .anyRequest().authenticated()
 
