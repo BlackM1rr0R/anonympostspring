@@ -18,7 +18,7 @@ public class Comment {
     private Long id;
     private String comment;
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "post-comment")
     @JoinColumn(name = "post_id")
     private Post post;
     @ManyToOne

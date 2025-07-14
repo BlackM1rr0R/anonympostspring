@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
@@ -32,10 +34,8 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public Comment getComment(Long postId) {
-        Users user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        user.getUsername();
-    return commentRepository.findById(postId).orElse(null);
-
+    public List<Comment> getComment(Long postId) {
+        return commentRepository.findAllByPostId(postId);
     }
+
 }

@@ -4,6 +4,8 @@ import org.example.blogback.entity.Comment;
 import org.example.blogback.service.CommentService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/comment")
 public class CommentController {
@@ -18,7 +20,7 @@ public class CommentController {
     }
 
     @GetMapping("/post/{postId}")
-    public Comment getComment(@PathVariable Long postId) {
+    public List<Comment> getComment(@PathVariable Long postId) {
         return commentService.getComment(postId);
     }
 }

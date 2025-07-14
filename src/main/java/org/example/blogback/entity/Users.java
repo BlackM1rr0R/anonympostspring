@@ -26,6 +26,9 @@ public class Users {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference(value = "user-comment")
     private List<Comment> comments;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference(value = "user-like")
+    private List<Like> likes;
     @Enumerated(EnumType.STRING)
     private UserRoles roles;
 

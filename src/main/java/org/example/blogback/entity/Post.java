@@ -36,12 +36,35 @@ public class Post {
     private Users user;
     private String imageUrl;
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL,orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value = "post-comment")
     private List<Comment> comments;
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference(value = "post-like")
+    private List<Like> likes;
+
+
+
+
+
+
+
+
+
+
+
 
     public Date getCreatedAt() {
         return createdAt;
     }
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Like> likes) {
+        this.likes = likes;
+    }
+
+
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
