@@ -38,4 +38,17 @@ public class CommentService {
         return commentRepository.findAllByPostId(postId);
     }
 
+    public void deleteComment(Long commentId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+        if (comment == null) {
+            throw new RuntimeException("Yorum bulunamadı");
+        }
+        if (!comment.getUser().getUsername().equals(username)) {
+            throw new RuntimeException("Bu yorumu silme yetkiniz yok");
+        }
+        commentRepository.deleteById(commentId);
+    }
+
 }

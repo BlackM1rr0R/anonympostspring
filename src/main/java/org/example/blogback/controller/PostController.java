@@ -47,4 +47,9 @@ public class PostController {
     public Post getPostById(@PathVariable Long id){
         return postService.getPostById(id);
     }
+
+    @DeleteMapping("/delete/all")
+    public String deleteAllPosts(){
+        return postService.deleteAllPosts();
+    }
 }

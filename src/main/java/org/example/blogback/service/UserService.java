@@ -1,6 +1,8 @@
 package org.example.blogback.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.blogback.dto.JwtResponse;
+import org.example.blogback.dto.UserProfileResponse;
 import org.example.blogback.entity.Users;
 import org.example.blogback.jwt.JwtUtil;
 import org.example.blogback.repository.UserRepository;
@@ -69,15 +71,22 @@ public class UserService {
     }
 
 
-    public Users getMyProfile() {
-        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        String username=authentication.getName();
-        Users user=userRepository.findByUsername(username);
-        if(user==null) {
+    public UserProfileResponse getMyProfile(HttpServletRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        String ipAddress = request.getHeader("X-Forwarded-For");
+        if (ipAddress == null || ipAddress.isEmpty()) {
+            ipAddress = request.getRemoteAddr();
+        }
+
+        Users user = userRepository.findByUsername(username);
+        if (user == null) {
             throw new RuntimeException("User not found");
         }
-        return user;
+
+        return new UserProfileResponse(user.getUsername(), user.getRoles().name(), ipAddress);
     }
+
 
     public Users editProfile(Users user) {
         Authentication authentication= SecurityContextHolder.getContext().getAuthentication();

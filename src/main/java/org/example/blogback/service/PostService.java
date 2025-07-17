@@ -86,4 +86,9 @@ public class PostService {
         Post post = postRepository.findById(id).orElse(null);
         return post;
     }
+
+    public String deleteAllPosts() {
+        postRepository.deleteAll();
+        return "Butun postlar silindi";
+    }
 }

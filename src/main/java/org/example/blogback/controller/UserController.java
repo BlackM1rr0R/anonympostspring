@@ -1,5 +1,7 @@
 package org.example.blogback.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.example.blogback.dto.UserProfileResponse;
 import org.example.blogback.entity.Users;
 import org.example.blogback.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +31,10 @@ public class UserController {
         return userService.getAllUsers();
     }
     @GetMapping("/my-profile")
-    public Users getMyProfile() {
-        return userService.getMyProfile();
+    public UserProfileResponse getMyProfile(HttpServletRequest request) {
+        return userService.getMyProfile(request);
     }
+
     @PutMapping("/edit-profile")
     public Users editProfile(@RequestBody Users user) {
         return userService.editProfile(user);
