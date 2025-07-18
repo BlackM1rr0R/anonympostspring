@@ -41,7 +41,6 @@ public class PostService {
             Path imagePath = Paths.get(uploadDir + fileName);
             Files.createDirectories(imagePath.getParent());
             Files.write(imagePath, image.getBytes());
-
             post.setImageUrl("/uploads/" + fileName);
         }
 

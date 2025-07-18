@@ -53,8 +53,6 @@ public class SecurityConfig  {
                                 .requestMatchers("/comment/add").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/post/delete/all").hasAnyRole( "ADMIN")
                                 .requestMatchers("/comment/delete/").hasAnyRole("USER", "ADMIN")
-
-
                                 .requestMatchers("/comment/post/").permitAll()
                                 .requestMatchers("/uploads/**").permitAll()
                                 .anyRequest().authenticated()
