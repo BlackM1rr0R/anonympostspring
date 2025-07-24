@@ -48,21 +48,15 @@ public class UserService {
     }
 
     public JwtResponse login(Users user) {
-        // Giriş kontrolü (şifre doğru mu vs.) — Spring yapar
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
         );
-
-        // Kullanıcıyı bul
         Users users = userRepository.findByUsername(user.getUsername());
         if (users == null) {
             throw new RuntimeException("User not found");
         }
-
-        // Token üret
         String token = jwtUtil.generateToken(users.getUsername());
-
-        // DTO olarak dön
         return new JwtResponse(
                 token,
                 users.getUsername(),

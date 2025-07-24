@@ -2,8 +2,11 @@ package org.example.blogback.service;
 
 import org.example.blogback.entity.Post;
 import org.example.blogback.entity.Users;
+import org.example.blogback.exception.PostException;
 import org.example.blogback.repository.PostRepository;
 import org.example.blogback.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -48,8 +51,8 @@ public class PostService {
     }
 
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public Page<Post> getAllPosts(Pageable pageable) {
+        return postRepository.findAll(pageable);
     }
 
 
@@ -82,7 +85,8 @@ public class PostService {
     }
 
     public Post getPostById(Long id) {
-        Post post = postRepository.findById(id).orElse(null);
+        Post post = postRepository.findById(id)
+                .orElseThrow(()->new PostException("Post not found"+id));
         return post;
     }
 

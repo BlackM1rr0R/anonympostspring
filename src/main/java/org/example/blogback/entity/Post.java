@@ -1,16 +1,16 @@
 package org.example.blogback.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+
 import java.util.List;
 
 @Entity
@@ -22,14 +22,14 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Title can not be blank")
     private String title;
+    @NotBlank(message = "Content can not be blank")
     private String content;
     private String author;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Europe/Berlin")
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(updatable = false)
     @CreationTimestamp
-    private Date createdAt;
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference(value = "user-post")
@@ -53,9 +53,15 @@ public class Post {
 
 
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+
     public List<Like> getLikes() {
         return likes;
     }
@@ -66,9 +72,7 @@ public class Post {
 
 
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+
 
     public List<Comment> getComments() {
         return comments;

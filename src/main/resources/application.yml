@@ -7,14 +7,16 @@ spring:
     password: Baku2018
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
 server:
   port: 6060
 
 jwt:
   secret: a-string-secret-at-least-256-bits-long
   expiration: 3600000
-

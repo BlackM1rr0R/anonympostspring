@@ -7,5 +7,5 @@ RUN mvn clean package -DskipTests
 # 2. Aşama: Sadece jar dosyasını kullan, daha küçük image
 FROM openjdk:17-jdk-alpine
 WORKDIR /app
-COPY --from=build /app/target/blogback-0.0.1-SNAPSHOT.jar app.jar
+
 ENTRYPOINT ["java", "-jar", "app.jar"]

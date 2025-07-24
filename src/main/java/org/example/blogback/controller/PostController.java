@@ -3,6 +3,10 @@ package org.example.blogback.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.blogback.entity.Post;
 import org.example.blogback.service.PostService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,8 +38,12 @@ public class PostController {
         return postService.getMyPosts();
     }
     @GetMapping("/all")
-    public List<Post> getAllPosts(){
-        return postService.getAllPosts();
+    public Page<Post> getAllPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        Pageable pageable= PageRequest.of(page,size, Sort.by("id").descending());
+        return postService.getAllPosts(pageable);
     }
 
     @GetMapping("/search")
