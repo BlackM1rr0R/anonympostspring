@@ -17,7 +17,10 @@ public class LikeController {
     public boolean toggleLike(@RequestBody Like like) {
         return likeService.toggleLike(like);
     }
-
+    @GetMapping("/post/{postId}/count")
+    public Long getLikeCount(@PathVariable Long postId) {
+        return likeService.getLikeCount(postId);
+    }
     @GetMapping("/post/{postId}")
     public List<Like> getLike(@PathVariable Long postId) {
         return likeService.getLike(postId);

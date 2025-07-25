@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.blogback.dto.UserProfileResponse;
 import org.example.blogback.entity.Users;
 import org.example.blogback.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

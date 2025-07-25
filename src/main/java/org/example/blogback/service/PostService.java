@@ -39,7 +39,7 @@ public class PostService {
         post.setUser(user);
 
         if (image != null && !image.isEmpty()) {
-            String uploadDir = "src/main/resources/static/uploads/";
+            String uploadDir = "uploads/";
             String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
             Path imagePath = Paths.get(uploadDir + fileName);
             Files.createDirectories(imagePath.getParent());
