@@ -55,6 +55,10 @@ public class SecurityConfig  {
                                 .requestMatchers("/comment/delete/").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/comment/post/").permitAll()
                                 .requestMatchers("/uploads/**").permitAll()
+                                .requestMatchers("/answer/add/").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/answer/allAnswer/").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/daily/addDailyQuestion/").hasAnyRole( "ADMIN")
+                                .requestMatchers("/daily/question/").hasAnyRole("USER", "ADMIN")
                                 .anyRequest().authenticated()
 
                 );

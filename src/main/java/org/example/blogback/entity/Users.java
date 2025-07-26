@@ -33,8 +33,32 @@ public class Users {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonManagedReference(value = "user-like")
     private List<Like> likes;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference(value = "user-answer")
+    private List<QuestionAnswer> answers;
     @Enumerated(EnumType.STRING)
     private UserRoles roles;
+
+
+
+
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Like> likes) {
+        this.likes = likes;
+    }
+
+    public List<QuestionAnswer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<QuestionAnswer> answers) {
+        this.answers = answers;
+    }
+
+
 
 
 
