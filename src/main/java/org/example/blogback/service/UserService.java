@@ -78,7 +78,7 @@ public class UserService {
             throw new RuntimeException("User not found");
         }
 
-        return new UserProfileResponse(user.getUsername(), user.getRoles().name(), ipAddress);
+        return new UserProfileResponse(user.getUsername(), user.getRoles().name(), ipAddress,user.getPassword());
     }
 
 
@@ -92,4 +92,30 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public void editForAdmin(UserProfileResponse userDto) {
+        Users existingUser = userRepository.findById(userDto.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+
+        if (userDto.getUsername() != null && !userDto.getUsername().isEmpty()) {
+            existingUser.setUsername(userDto.getUsername());
+        }
+
+        if (userDto.getRole() != null && !userDto.getRole().isEmpty()) {
+            existingUser.setRoles(UserRoles.valueOf(userDto.getRole()));
+        }
+
+        userRepository.save(existingUser);
+    }
+
+
+
 }

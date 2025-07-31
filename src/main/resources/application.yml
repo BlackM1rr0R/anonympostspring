@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/blogDB
     username: root
-    password: Baku2018.!
+    password: Baku2018
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
@@ -16,7 +16,7 @@ spring:
 
 server:
   port: 6060
-  address: 0.0.0.0
+
 
 jwt:
   secret: a-string-secret-at-least-256-bits-long

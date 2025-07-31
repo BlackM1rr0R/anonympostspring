@@ -59,6 +59,10 @@ public class SecurityConfig  {
                                 .requestMatchers("/answer/allAnswer/").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/daily/addDailyQuestion/").hasAnyRole( "ADMIN")
                                 .requestMatchers("/daily/question/").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/admin/allUsers").hasAnyRole( "ADMIN")
+                                .requestMatchers("/admin/edit-profile").hasAnyRole( "ADMIN")
+                                .requestMatchers("/admin/users/**").hasAnyRole( "ADMIN")
+
                                 .anyRequest().authenticated()
 
                 );
