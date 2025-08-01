@@ -32,14 +32,18 @@ public class UserService {
 
     }
 
-    public Users register(Users user) {
+    public Users register(Users user, HttpServletRequest request) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
 
         user.setRoles(UserRoles.USER);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.isEmpty()) {
+            ip = request.getRemoteAddr();
+        }
+        user.setIpAddress(ip);
         return userRepository.save(user);
     }
 
@@ -47,7 +51,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public JwtResponse login(Users user) {
+    public JwtResponse login(Users user,HttpServletRequest request) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
@@ -56,6 +60,11 @@ public class UserService {
         if (users == null) {
             throw new RuntimeException("User not found");
         }
+        String ip=request.getHeader("x-forwarded-for");
+        if (ip == null || ip.isEmpty()) {
+            ip=request.getRemoteAddr();
+        }
+        user.setIpAddress(ip);
         String token = jwtUtil.generateToken(users.getUsername());
         return new JwtResponse(
                 token,
@@ -78,15 +87,15 @@ public class UserService {
             throw new RuntimeException("User not found");
         }
 
-        return new UserProfileResponse(user.getUsername(), user.getRoles().name(), ipAddress,user.getPassword());
+        return new UserProfileResponse(user.getUsername(), user.getRoles().name(), ipAddress, user.getPassword());
     }
 
 
     public Users editProfile(Users user) {
-        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        String username=authentication.getName();
-        Users users=userRepository.findByUsername(username);
-        if(users==null) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Users users = userRepository.findByUsername(username);
+        if (users == null) {
             throw new RuntimeException("User not found");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -115,7 +124,6 @@ public class UserService {
 
         userRepository.save(existingUser);
     }
-
 
 
 }

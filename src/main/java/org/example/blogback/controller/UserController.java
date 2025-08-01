@@ -17,12 +17,12 @@ public class UserController {
         this.userService = userService;
     }
     @PostMapping("/register")
-    public Users register(@RequestBody Users user) {
-        return userService.register(user);
+    public Users register(@RequestBody Users user,HttpServletRequest request) {
+        return userService.register(user,request);
     }
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Users user) {
-        return ResponseEntity.ok(userService.login(user));
+    public ResponseEntity<?> login(@RequestBody Users user,HttpServletRequest request) {
+        return ResponseEntity.ok(userService.login(user,request));
     }
 
     @GetMapping("/allusers")
