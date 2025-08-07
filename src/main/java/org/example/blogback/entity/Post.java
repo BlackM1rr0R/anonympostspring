@@ -24,6 +24,8 @@ public class Post {
     private Long id;
     @NotBlank(message = "Title can not be blank")
     private String title;
+    @Lob
+    @Column(columnDefinition = "TEXT")
     @NotBlank(message = "Content can not be blank")
     private String content;
     private String author;

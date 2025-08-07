@@ -20,4 +20,4 @@ server:
 
 jwt:
   secret: a-string-secret-at-least-256-bits-long
-  expiration: 3600000
+  expiration: 36000000

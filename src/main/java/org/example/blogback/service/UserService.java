@@ -91,16 +91,20 @@ public class UserService {
     }
 
 
-    public Users editProfile(Users user) {
+    public Users editProfile(Users updateData) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        Users users = userRepository.findByUsername(username);
-        if (users == null) {
+        Users existingUser = userRepository.findByUsername(username);
+        if (existingUser == null) {
             throw new RuntimeException("User not found");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        if (updateData.getPassword() != null && !updateData.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(updateData.getPassword()));
+        }
+
+        return userRepository.save(existingUser);
     }
+
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
