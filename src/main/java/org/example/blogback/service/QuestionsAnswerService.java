@@ -61,4 +61,22 @@ public class QuestionsAnswerService {
                 .toList();
     }
 
+    public void deleteAnswer(Long answerId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Users user = userRepository.findByUsername(username);
+        if(user==null) {
+            throw new RuntimeException("User not found");
+        }
+        QuestionAnswer questionAnswer=questionsAnswerRepository.findById(answerId).orElse(null);
+        if(questionAnswer==null) {
+            throw new RuntimeException("QuestionAnswer not found");
+        }
+        if(!questionAnswer.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("Answer not belongs to user");
+        }
+
+        questionsAnswerRepository.deleteById(answerId);
+
+    }
 }

@@ -25,4 +25,9 @@ public class QuestionsAnswerController {
         return questionsAnswerService.getAllAnswer();
     }
 
+    @DeleteMapping("/delete/{answerId}")
+    public void deleteAnswer(@PathVariable Long answerId) {
+        questionsAnswerService.deleteAnswer(answerId);
+    }
+
 }

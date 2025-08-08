@@ -27,4 +27,6 @@ public class DailyQuestionsController {
     public DailyQuestionDTO getDailyQuestionById(@PathVariable Long id) {
         return dailyQuestionsService.getDailyQuestionById(id);
     }
+
+
 }

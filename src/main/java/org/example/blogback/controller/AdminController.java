@@ -65,4 +65,6 @@ public class AdminController {
         user.setIpAddress(ip);
         userRepository.save(user);
     }
+
+
 }
