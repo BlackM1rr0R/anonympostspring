@@ -25,9 +25,10 @@ public class PostController {
     public Post addPost(@RequestParam("title") String title,
                         @RequestParam("content")String content,
                         @RequestParam("author")String author,
-                        @RequestParam("image")MultipartFile image
+                        @RequestParam("image")MultipartFile image,
+                        @RequestParam("category")Long categoryId
                         )throws IOException {
-        return postService.addPost(title,content,author,image);
+        return postService.addPost(title,content,author,image,categoryId);
     }
     @PutMapping("/edit")
     public Post editPost(@RequestBody Post post) {
@@ -59,5 +60,9 @@ public class PostController {
     @DeleteMapping("/delete/all")
     public String deleteAllPosts(){
         return postService.deleteAllPosts();
+    }
+    @GetMapping("/category/{id}")
+    public List<Post> getPostsByCategory(@PathVariable Long id) {
+        return postService.getPostsByCategoryId(id);
     }
 }

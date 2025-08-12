@@ -1,8 +1,10 @@
 package org.example.blogback.service;
 
+import org.example.blogback.entity.Category;
 import org.example.blogback.entity.Post;
 import org.example.blogback.entity.Users;
 import org.example.blogback.exception.PostException;
+import org.example.blogback.repository.CategoryRepository;
 import org.example.blogback.repository.PostRepository;
 import org.example.blogback.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -23,11 +25,13 @@ import java.util.UUID;
 public class PostService {
     private PostRepository postRepository;
     private UserRepository userRepository;
-    public PostService(PostRepository postRepository, UserRepository userRepository) {
+    private CategoryRepository categoryRepository;
+    public PostService(PostRepository postRepository, UserRepository userRepository, CategoryRepository categoryRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
     }
-    public Post addPost(String title, String content, String author, MultipartFile image) throws IOException {
+    public Post addPost(String title, String content, String author, MultipartFile image,Long categoryId) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         Users user = userRepository.findByUsername(username);
@@ -38,6 +42,8 @@ public class PostService {
         post.setAuthor(author);
         post.setUser(user);
 
+        Category category = categoryRepository.findById(categoryId).get();
+        post.setCategory(category);
         if (image != null && !image.isEmpty()) {
             String uploadDir = "uploads/";
             String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
@@ -93,5 +99,11 @@ public class PostService {
     public String deleteAllPosts() {
         postRepository.deleteAll();
         return "Butun postlar silindi";
+    }
+
+
+
+    public List<Post> getPostsByCategoryId(Long categoryId) {
+        return postRepository.findByCategoryId(categoryId);
     }
 }
