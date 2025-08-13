@@ -46,8 +46,11 @@ public class Post {
     private List<Like> likes;
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonIgnoreProperties("posts")
+    @JsonBackReference(value = "post-category")
     private Category category;
+
+
+
 
 
 

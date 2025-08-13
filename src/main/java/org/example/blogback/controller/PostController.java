@@ -1,6 +1,6 @@
 package org.example.blogback.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
+import org.example.blogback.dto.PostResponse;
 import org.example.blogback.entity.Post;
 import org.example.blogback.service.PostService;
 import org.springframework.data.domain.Page;
@@ -17,43 +17,47 @@ import java.util.List;
 @RestController
 @RequestMapping("/post")
 public class PostController {
+
     private final PostService postService;
     public PostController(PostService postService) {
         this.postService = postService;
     }
-    @PostMapping(value="/add",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+
+    @PostMapping(value="/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Post addPost(@RequestParam("title") String title,
-                        @RequestParam("content")String content,
-                        @RequestParam("author")String author,
-                        @RequestParam("image")MultipartFile image,
-                        @RequestParam("category")Long categoryId
-                        )throws IOException {
-        return postService.addPost(title,content,author,image,categoryId);
+                        @RequestParam("content") String content,
+                        @RequestParam("author") String author,
+                        @RequestParam(value = "image", required = false) MultipartFile image,
+                        @RequestParam("category") Long categoryId) throws IOException {
+        return postService.addPost(title, content, author, image, categoryId);
     }
+
     @PutMapping("/edit")
     public Post editPost(@RequestBody Post post) {
         return postService.editPost(post);
     }
+
     @GetMapping("/my-posts")
-    public List<Post> getMyPosts() {
+    public List<PostResponse> getMyPosts() {
         return postService.getMyPosts();
     }
+
     @GetMapping("/all")
-    public Page<Post> getAllPosts(
+    public Page<PostResponse> getAllPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ){
-        Pageable pageable= PageRequest.of(page,size, Sort.by("id").descending());
-        return postService.getAllPosts(pageable);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        return postService.getAllPosts(pageable).map(postService::mapToDto);
     }
 
     @GetMapping("/search")
-    public List<Post> searchByTitle(@RequestParam("title") String title){
+    public List<PostResponse> searchByTitle(@RequestParam("title") String title){
         return postService.searchByTitle(title);
     }
 
     @GetMapping("/search/post/{id}")
-    public Post getPostById(@PathVariable Long id){
+    public PostResponse getPostById(@PathVariable Long id){
         return postService.getPostById(id);
     }
 
@@ -61,8 +65,9 @@ public class PostController {
     public String deleteAllPosts(){
         return postService.deleteAllPosts();
     }
+
     @GetMapping("/category/{id}")
-    public List<Post> getPostsByCategory(@PathVariable Long id) {
+    public List<PostResponse> getPostsByCategory(@PathVariable Long id) {
         return postService.getPostsByCategoryId(id);
     }
 }
