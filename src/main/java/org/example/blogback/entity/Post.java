@@ -12,6 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -48,6 +49,9 @@ public class Post {
     @JoinColumn(name = "category_id")
     @JsonBackReference(value = "post-category")
     private Category category;
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference(value = "post-saved")
+    private List<Saved> savedBy=new ArrayList<>();
 
 
 
@@ -59,9 +63,13 @@ public class Post {
 
 
 
+    public List<Saved> getSavedBy() {
+        return savedBy;
+    }
 
-
-
+    public void setSavedBy(List<Saved> savedBy) {
+        this.savedBy = savedBy;
+    }
 
     public Category getCategory() {
         return category;

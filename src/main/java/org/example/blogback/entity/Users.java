@@ -21,7 +21,6 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String username;
     private String password;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
@@ -39,6 +38,31 @@ public class Users {
     @Enumerated(EnumType.STRING)
     private UserRoles roles;
     private String ipAddress;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonManagedReference(value = "user-saved")
+    private List<Saved> saved;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public List<Saved> getSaved() {
+        return saved;
+    }
+
+    public void setSaved(List<Saved> saved) {
+        this.saved = saved;
+    }
 
     public String getIpAddress() {
         return ipAddress;

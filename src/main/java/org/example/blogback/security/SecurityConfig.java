@@ -62,6 +62,7 @@ public class SecurityConfig  {
                                 .requestMatchers("/admin/allUsers").hasAnyRole( "ADMIN")
                                 .requestMatchers("/admin/edit-profile").hasAnyRole( "ADMIN")
                                 .requestMatchers("/admin/users/**").hasAnyRole( "ADMIN")
+                                .requestMatchers("/saved/**").hasAnyRole( "ADMIN","USER")
 
                                 .anyRequest().authenticated()
 

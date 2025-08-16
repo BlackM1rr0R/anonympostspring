@@ -70,4 +70,6 @@ public class PostController {
     public List<PostResponse> getPostsByCategory(@PathVariable Long id) {
         return postService.getPostsByCategoryId(id);
     }
+
+
 }

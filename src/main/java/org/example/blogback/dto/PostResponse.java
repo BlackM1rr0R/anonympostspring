@@ -14,6 +14,18 @@ public class PostResponse {
     private LocalDateTime createdAt;
     private String imageUrl;
 
+    public PostResponse(Long id, String title, String author, String imageUrl) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.imageUrl = imageUrl;
+
+    }
+
+    public PostResponse() {
+
+    }
+
     public Long getId() {
         return id;
     }
