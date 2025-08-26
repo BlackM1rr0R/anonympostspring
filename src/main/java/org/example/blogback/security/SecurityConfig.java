@@ -63,6 +63,10 @@ public class SecurityConfig  {
                                 .requestMatchers("/admin/edit-profile").hasAnyRole( "ADMIN")
                                 .requestMatchers("/admin/users/**").hasAnyRole( "ADMIN")
                                 .requestMatchers("/saved/**").hasAnyRole( "ADMIN","USER")
+                                .requestMatchers("/ws/**").permitAll()
+                                .requestMatchers("/user/list-all-users").hasAnyRole( "ADMIN","USER")
+
+
 
                                 .anyRequest().authenticated()
 

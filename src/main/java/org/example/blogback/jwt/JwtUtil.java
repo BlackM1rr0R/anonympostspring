@@ -31,13 +31,15 @@ public class JwtUtil {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
-    public String getEmailFromToken(String token) {
+    public String getUsernameFromToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(key).build()
+                .setSigningKey(key)
+                .build()
                 .parseClaimsJws(token)
                 .getBody()
-                .getSubject();
+                .getSubject();  // ✅ username döndürür
     }
+
     public boolean validateJwtToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);

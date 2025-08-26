@@ -13,22 +13,26 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     @PostMapping("/register")
-    public Users register(@RequestBody Users user,HttpServletRequest request) {
-        return userService.register(user,request);
+    public Users register(@RequestBody Users user, HttpServletRequest request) {
+        return userService.register(user, request);
     }
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Users user,HttpServletRequest request) {
-        return ResponseEntity.ok(userService.login(user,request));
+    public ResponseEntity<?> login(@RequestBody Users user, HttpServletRequest request) {
+        return ResponseEntity.ok(userService.login(user, request));
     }
 
     @GetMapping("/allusers")
     public List<Users> getAllUsers() {
         return userService.getAllUsers();
     }
+
     @GetMapping("/my-profile")
     public UserProfileResponse getMyProfile(HttpServletRequest request) {
         return userService.getMyProfile(request);
@@ -38,7 +42,9 @@ public class UserController {
     public Users editProfile(@RequestBody Users user) {
         return userService.editProfile(user);
     }
-
-
+    @GetMapping("/list-all-users")
+    public List<Users> getAllListUsers(){
+        return userService.getAllListUsers();
+    }
 
 }

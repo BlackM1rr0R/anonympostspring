@@ -1,11 +1,21 @@
 spring:
   application:
     name: blog-back
+
   datasource:
     url: jdbc:mysql://localhost:3306/blogDB
     username: root
     password: Baku2018
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  task:
+    execution:
+      pool:
+        core-size: 50
+        max-size: 200
+        queue-capacity: 5000
+      thread-name-prefix: async-
+
   jpa:
     show-sql: true
     hibernate:
@@ -14,9 +24,14 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 server:
   port: 6060
-
+  address: 0.0.0.0
 
 jwt:
   secret: a-string-secret-at-least-256-bits-long

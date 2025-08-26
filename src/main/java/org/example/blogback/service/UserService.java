@@ -130,4 +130,7 @@ public class UserService {
     }
 
 
+    public List<Users> getAllListUsers() {
+        return userRepository.findAll();
+    }
 }
