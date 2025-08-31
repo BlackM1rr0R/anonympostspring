@@ -1,30 +1,50 @@
 package org.example.blogback.repository;
 
 import org.example.blogback.entity.ChatMessage;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
 
-    // ✔️ Çift yön ve doğru parantezle, zamana göre sıralı
+    // İKİ KULLANICI ARASINDAKİ MESAJLAR (yukarıdan aşağı zaman sıralı)
     @Query("""
-           SELECT m FROM ChatMessage m
-           WHERE (m.sender = :u1 AND m.receiver = :u2)
-              OR (m.sender = :u2 AND m.receiver = :u1)
-           ORDER BY m.timestamp ASC
+           select m from ChatMessage m
+           where (m.sender = :u1 and m.receiver = :u2)
+              or (m.sender = :u2 and m.receiver = :u1)
+           order by m.timestamp asc
            """)
-    List<ChatMessage> findConversation(@Param("u1") String u1,
-                                       @Param("u2") String u2);
+    List<ChatMessage> findConversation(@Param("u1") String u1, @Param("u2") String u2);
 
-    // İstersen diğerleri kalsın ama artık bunu kullanacağız
-    List<ChatMessage> findBySenderAndReceiverOrReceiverAndSenderOrderByTimestampAsc(
-            String sender1, String receiver1, String sender2, String receiver2
-    );
+    // Aynı sorgunun sayfalanan (paged) versiyonu (opsiyonel, istersen kullan)
+    @Query("""
+           select m from ChatMessage m
+           where (m.sender = :u1 and m.receiver = :u2)
+              or (m.sender = :u2 and m.receiver = :u1)
+           order by m.timestamp desc
+           """)
+    Page<ChatMessage> findConversationPage(@Param("u1") String u1, @Param("u2") String u2, Pageable pageable);
 
-    List<ChatMessage> findBySenderAndReceiverOrReceiverAndSender(String user1, String user2, String user11, String user21);
+    // KONUŞTUĞUN TÜM PARTNERLER (her partner için 1 satır) + SON MESAJ ZAMANI
+    @Query("""
+           select 
+             case when m.sender = :user then m.receiver else m.sender end as partner,
+             max(m.timestamp) as lastTime
+           from ChatMessage m
+           where m.sender = :user or m.receiver = :user
+           group by case when m.sender = :user then m.receiver else m.sender end
+           order by max(m.timestamp) desc
+           """)
+    List<ConversationRow> findConversationPartners(@Param("user") String user);
 
-    List<ChatMessage> findBySenderAndReceiver(String sender, String receiver);
+    // Projection: partner ve son zaman alanlarını tipli döndürmek için
+    interface ConversationRow {
+        String getPartner();
+        LocalDateTime getLastTime();
+    }
 }

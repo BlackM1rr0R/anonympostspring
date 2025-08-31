@@ -1,6 +1,7 @@
 package org.example.blogback.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.blogback.dto.ConversationSummary;
 import org.example.blogback.entity.ChatMessage;
 import org.example.blogback.service.ChatService;
 import org.example.blogback.jwt.JwtUtil;
@@ -63,6 +64,13 @@ public class ChatController {
         System.out.println("History -> currentUser='" + currentUser + "', other='" + receiver + "'");
 
         return chatService.getMessagesBetweenUsers(currentUser, receiver);
+    }
+
+    @GetMapping("/conversations")
+    public List<ConversationSummary> getConversations(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        String currentUser = chatService.getCurrentUserFromToken(token);
+        return chatService.getConversationsForUser(currentUser);
     }
 
 }
