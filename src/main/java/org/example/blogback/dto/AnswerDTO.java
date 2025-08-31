@@ -7,6 +7,16 @@ public class AnswerDTO {
     private String answer;
     private LocalDateTime createdAt;
     private String username;
+    private String authorId;
+
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
+
     public Long getId() {
         return id;
     }

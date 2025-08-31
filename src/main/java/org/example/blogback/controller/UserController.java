@@ -3,6 +3,7 @@ package org.example.blogback.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.blogback.dto.UserProfileResponse;
 import org.example.blogback.entity.Users;
+import org.example.blogback.repository.UserRepository;
 import org.example.blogback.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+
     }
 
     @PostMapping("/register")
@@ -46,5 +48,11 @@ public class UserController {
     public List<Users> getAllListUsers(){
         return userService.getAllListUsers();
     }
+    @GetMapping("/about-users/{id}")
+    public UserProfileResponse getAboutUser(@PathVariable Long id) {
+        return userService.getAboutUser(id);
+    }
+
+
 
 }

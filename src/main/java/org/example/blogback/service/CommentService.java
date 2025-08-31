@@ -1,5 +1,6 @@
 package org.example.blogback.service;
 
+import org.example.blogback.dto.CommentDTO;
 import org.example.blogback.entity.Comment;
 import org.example.blogback.entity.Post;
 import org.example.blogback.entity.Users;
@@ -34,9 +35,17 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public List<Comment> getComment(Long postId) {
-        return commentRepository.findAllByPostId(postId);
+    public List<CommentDTO> getComment(Long postId) {
+        List<Comment> comments = commentRepository.findAllByPostId(postId);
+        return comments.stream().map(c -> new CommentDTO(
+                c.getId(),
+                c.getComment(),
+                c.getUser().getUsername(),
+                c.getUser().getId()
+        )).toList();
     }
+
+
 
     public void deleteComment(Long commentId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

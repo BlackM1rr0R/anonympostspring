@@ -133,4 +133,13 @@ public class UserService {
     public List<Users> getAllListUsers() {
         return userRepository.findAll();
     }
+
+    public UserProfileResponse getAboutUser(Long id) {
+        Users user=userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found"));
+      UserProfileResponse response= new UserProfileResponse();
+        response.setId(user.getId());
+        response.setUsername(user.getUsername());
+        response.setPosts(user.getPosts());
+        return response;
+    }
 }

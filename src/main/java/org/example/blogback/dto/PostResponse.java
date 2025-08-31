@@ -13,6 +13,7 @@ public class PostResponse {
     private String categoryName;
     private LocalDateTime createdAt;
     private String imageUrl;
+    private Long authorId;
 
     public PostResponse(Long id, String title, String author, String imageUrl) {
         this.id = id;

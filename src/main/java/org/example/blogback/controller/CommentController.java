@@ -1,5 +1,6 @@
 package org.example.blogback.controller;
 
+import org.example.blogback.dto.CommentDTO;
 import org.example.blogback.entity.Comment;
 import org.example.blogback.service.CommentService;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,10 @@ public class CommentController {
     }
 
     @GetMapping("/post/{postId}")
-    public List<Comment> getComment(@PathVariable Long postId) {
+    public List<CommentDTO> getComment(@PathVariable Long postId) {
         return commentService.getComment(postId);
     }
+
 
     @DeleteMapping("/delete/{commentId}")
     public void deleteComment(@PathVariable Long commentId) {

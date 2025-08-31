@@ -3,6 +3,9 @@ package org.example.blogback.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.blogback.entity.Post;
+
+import java.util.List;
 
 @Data
 public class UserProfileResponse {
@@ -11,14 +14,20 @@ public class UserProfileResponse {
     private String role;
     private String ip;
     private String password;
-
-    public UserProfileResponse() {}
+    private List<Post> posts;
+    public UserProfileResponse() {
+    }
 
     public UserProfileResponse(String username, String role, String ip, String password) {
         this.username = username;
         this.role = role;
         this.ip = ip;
-    this.password = password;
+        this.password = password;
+    }
+
+    public UserProfileResponse(String username, List<Post> posts) {
+        this.username = username;
+        this.posts = posts;
     }
 
     public String getPassword() {
@@ -32,6 +41,7 @@ public class UserProfileResponse {
     public String getUsername() {
         return username;
     }
+
     public Long getId() {
         return id;
     }
@@ -59,8 +69,6 @@ public class UserProfileResponse {
     public void setIp(String ip) {
         this.ip = ip;
     }
-
-
 
 
 }
